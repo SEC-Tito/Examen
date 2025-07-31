@@ -1,0 +1,3 @@
+1,1,INDIVIDUAL,true
+12,12,DOBLE,true
+1242,13524,DOBLE,false

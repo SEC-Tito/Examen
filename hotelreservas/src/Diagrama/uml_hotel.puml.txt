@@ -1,0 +1,78 @@
+@startuml
+package modelo {
+  class Cliente {
+    - String id
+    - String nombre
+    - String apellido
+    - String email
+    - String telefono
+    + getId()
+    + getNombre()
+    + getApellido()
+    + getEmail()
+    + getTelefono()
+  }
+
+  enum TipoHabitacion {
+    INDIVIDUAL
+    DOBLE
+    SUITE
+  }
+
+  class Habitacion {
+    - String id
+    - int numero
+    - TipoHabitacion tipo
+    - boolean disponible
+    - double precioNoche
+    + getPrecioNoche()
+    + setPrecioNoche(double)
+  }
+
+  interface Pago {
+    + double calcularTotal()
+  }
+
+  class ServicioAdicional implements Pago {
+    - String descripcion
+    - double precio
+    + calcularTotal()
+  }
+
+  class Reserva implements Pago {
+    - String id
+    - Cliente cliente
+    - Habitacion habitacion
+    - LocalDate fechaEntrada
+    - LocalDate fechaSalida
+    - List<ServicioAdicional> servicios
+    + calcularTotal()
+    + addServicio(ServicioAdicional)
+  }
+
+  abstract class Usuario {
+    - String id
+    - String nombre
+    + getId()
+    + getNombre()
+  }
+
+  class Recepcionista extends Usuario
+  class Administrador extends Usuario
+
+  // Relaciones
+  Reserva --> Cliente
+  Reserva --> Habitacion
+  Reserva o-- ServicioAdicional
+  Pago <|.. Reserva
+  Pago <|.. ServicioAdicional
+  Usuario <|-- Recepcionista
+  Usuario <|-- Administrador
+}
+
+package dao {
+  ClienteDAO ..> Cliente
+  HabitacionDAO ..> Habitacion
+  ReservaDAO ..> Reserva
+}
+@enduml
